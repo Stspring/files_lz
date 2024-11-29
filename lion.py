@@ -1,10 +1,10 @@
 from collections import Counter
 import docx
-import re
+import re 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-file_path = 'lion.docx'  
+file_path = 'lion.docx'
 
 # Открываем документ
 doc = docx.Document(file_path)
@@ -12,7 +12,7 @@ text = []
 # Извлекаем текст из каждого абзаца в список
 for paragraph in doc.paragraphs:
     text.append(paragraph.text)
-# Объединяем все тексты 
+# Объединяем все тексты которые извлекли
 full_text = ' '.join(text)
 # Удаляем знаки препинания и разбиваем текст на слова
 words = re.findall(r'\b\w+\b', full_text.lower())
@@ -25,13 +25,13 @@ df_words = pd.DataFrame(word_count.items(), columns=['Слово', 'Частот
 # Рассчитываем процент встречаемости слов
 df_words['Процент'] = (df_words['Частота'] / total_words) * 100
 print(df_words)
-# Сохранение результатов в CSV файл (по желанию)
+# Сохраняем результат CSV файл 
 output_file_words = 'word_frequency.csv'
 df_words.to_csv(output_file_words, index=False, encoding='utf-8')
 print(f'Результаты частоты слов сохранены в файл: {output_file_words}')
 # Удаляем все, кроме букв русского алфавита, и преобразуем текст в нижний регистр
 letters = re.findall(r'[а-яА-ЯёЁ]', full_text.lower())
-# Подсчитываем частоту букв
+# Подсчитываем частоту встречаемости букв
 letter_count = Counter(letters)
 # Создаем DataFrame из результатов
 df_letters = pd.DataFrame(letter_count.items(), columns=['Буква', 'Частота'])

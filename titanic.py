@@ -5,7 +5,7 @@ file_path = 'titanic.parquet'
 df = pd.read_parquet(file_path)
 # Выводим первые строки набора данных, чтобы увидеть его структуру
 print(df.head())
-# Сохранение данных в формате .csv
+# Сохраняем данных в формате .csv
 csv_output_path = 'titanic.csv'
 df.to_csv(csv_output_path, index=False, encoding='utf-8')
 print(f'Файл сохранен как: {csv_output_path}')
@@ -17,15 +17,19 @@ survival_counts = df.groupby(['Pclass', 'Survived']).size().unstack(fill_value=0
 # Вычисляем проценты выживания для каждого класса
 survival_percentage = survival_counts.div(survival_counts.sum(axis=1), axis=0) * 100
 # Создаем гистограмму
-survival_percentage.plot(kind='bar', stacked=True, color=['lightcoral', 'lightgreen'],
-                     figsize=(10, 6))
+survival_percentage.plot(kind='bar', stacked=True, color=['lightcoral', 'lightgreen'],  figsize=(10, 6))
 # Настраиваем заголовок и метки
 plt.title('Выживаемость пассажиров Титаника')
 plt.xlabel('Класс билета')
 plt.xticks(rotation=0)
 plt.legend(['Не выжили', 'Выжили'])
-# Настройка оси Y на проценты
+# Настройка оси Y на проценты в графике
+#plt.gca() использую для создания оси для этого графика
+#дальше задается формат с помощью lamda(она будет значением метки(то есть
+#она возвращает строку,изменяя значение функции как целое число и добавляет
+#значок процента))(просто к числу доваляется знак процента)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:.0f}%'))
+#задаем диапозон выше которого не будет отображатся ось(то есть придел отображения)
 plt.ylim(0, 100)
 # Отображаем гистограмму
 plt.tight_layout()
